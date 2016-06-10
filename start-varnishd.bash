@@ -9,6 +9,11 @@ backend default {
 	.host = "$VARNISH_BACKEND_HOST";
 	.port = "$VARNISH_BACKEND_PORT";
 }
+
+sub vcl_backend_response {
+        set beresp.ttl = $VARNISH_DEFAULT_TTL;
+        unset beresp.http.Set-Cookie;
+}
 EOF
 
 exec varnishd 				\
